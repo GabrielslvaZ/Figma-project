@@ -1,0 +1,132 @@
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+void main() => runApp(SementeDaFeApp());
+
+class SementeDaFeApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Semente da Fé',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Color(0xFF1E1E1E),
+        colorScheme: ColorScheme.dark(
+          primary: Colors.greenAccent,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.greenAccent,
+            side: BorderSide(color: Colors.greenAccent),
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
+      home: PaginaInicial(),
+    );
+  }
+}
+
+class PaginaInicial extends StatefulWidget {
+  @override
+  _PaginaInicialState createState() => _PaginaInicialState();
+}
+
+class _PaginaInicialState extends State<PaginaInicial> {
+  final List<String> versiculos = [
+    '"Pois o SENHOR me disse: “Do lugar onde habito observarei quieto, '
+        'como sobe o calor num dia de verão, como se forma o orvalho da manhã durante a colheita.”\n\nIsaías 18:4',
+    '"A fé é a certeza daquilo que esperamos e a prova das coisas que não vemos."\n\nHebreus 11:1',
+    '"Tudo posso naquele que me fortalece."\n\nFilipenses 4:13',
+    '"Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento."\n\nProvérbios 3:5',
+    '"O Senhor é o meu pastor, nada me faltará."\n\nSalmo 23:1',
+  ];
+
+  void mostrarVersiculo() {
+    final random = Random();
+    final index = random.nextInt(versiculos.length);
+    final versiculoSelecionado = versiculos[index];
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SegundaPagina(versiculo: versiculoSelecionado),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Semente da Fé'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.local_florist, size: 80, color: Colors.greenAccent),
+              SizedBox(height: 30),
+              Text(
+                'Clique abaixo para uma mensagem de fé.',
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: mostrarVersiculo,
+                child: Text('Ver versículo'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SegundaPagina extends StatelessWidget {
+  final String versiculo;
+
+  SegundaPagina({required this.versiculo});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Versículo do Dia'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.book, size: 80, color: Colors.greenAccent),
+              SizedBox(height: 30),
+              Text(
+                versiculo,
+                style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Voltar'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
